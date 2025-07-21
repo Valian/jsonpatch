@@ -11,6 +11,13 @@ defmodule Jsonpatch.Types do
 
   @type json_container :: map() | list()
 
+  @type opts :: [{:keys, opt_keys()}]
+  @type opts_diff :: [
+          {:ancestor_path, String.t()}
+          | {:prepare_struct, (struct() -> map())}
+          | {:object_hash, (term() -> term())}
+        ]
+
   @type convert_fn ::
           (fragment :: term(), target_path :: [term()], target :: json_container(), opts() ->
              {:ok, converted_fragment :: term()} | :error)
@@ -25,14 +32,6 @@ defmodule Jsonpatch.Types do
   """
   @type opt_keys ::
           :strings | :atoms | {:custom, convert_fn()} | {:ignore_invalid_paths, :boolean}
-
-  @typedoc """
-  Types options:
-
-  - `:keys` - controls how path fragments are decoded.
-  """
-  @type opts :: [{:keys, opt_keys()}]
-  @type opts_diff :: [{:ancestor_path, String.t()} | {:prepare_struct, (struct() -> map())}]
 
   @type casted_array_index :: :- | non_neg_integer()
   @type casted_object_key :: atom() | String.t()
